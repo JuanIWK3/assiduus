@@ -32,16 +32,20 @@ impl EventHandler for Handler {
         if msg.content.starts_with(">") {
             let lang = msg.content[1..].split_whitespace().next().unwrap();
             let content = msg.content[2 + lang.len()..].trim();
-
-            msg.delete(ctx.clone()).await.unwrap();
+            let author = msg.clone().author.name;
 
             if let Err(why) = msg
                 .channel_id
-                .say(&ctx.http, format!("```{}\n{}\n```", lang, content))
+                .say(
+                    &ctx.http,
+                    format!("{}\n```{}\n{}\n```", author, lang, content),
+                )
                 .await
             {
                 println!("Error sending message: {:?}", why);
             }
+
+            // msg.delete(&ctx).await.unwrap();
         }
 
         if msg.content == "!ping" {
