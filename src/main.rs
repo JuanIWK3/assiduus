@@ -29,8 +29,8 @@ impl EventHandler for Handler {
     // Event handlers are dispatched through a threadpool, and so multiple
     // events can be dispatched simultaneously.
     async fn message(&self, ctx: Context, msg: Message) {
-        if msg.content.starts_with(">") {
-            let lang = msg.content[1..].split_whitespace().next().unwrap();
+        if msg.content.starts_with(">!") {
+            let lang = msg.content[2..].split_whitespace().next().unwrap();
             let content = msg.content[2 + lang.len()..].trim();
             let author = msg.clone().author;
 
